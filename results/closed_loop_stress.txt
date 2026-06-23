@@ -1,0 +1,29 @@
+=== CLOSED-LOOP STRESS TEST — where do random features stop being good enough? ===
+
+  n-D reach (weak coupling, controllable). c = actions run open-loop before replanning.
+  metric = min distance to target over the episode (LOWER is better). oracle = reference.
+
+  open-loop drift (rollout err @15), the underlying cause:
+       dim |   random | structured
+     ------+----------+-----------
+        4D |    0.959 |      0.000
+        8D |    1.759 |      0.000
+       16D |    2.560 |      0.000
+
+  closed-loop control (min dist to target, averaged over 3 seeds):
+      dim |   c |  random | structured |  oracle | verdict
+     -----+-----+---------+------------+---------+---------------------------
+       4D |   1 |    0.25 |       0.25 |    0.25 | random OK (parity)
+       4D |   5 |    0.31 |       0.23 |    0.23 | random OK (parity)
+       4D |  15 |    0.30 |       0.08 |    0.08 | random OK (parity)
+       8D |   1 |    0.75 |       0.64 |    0.64 | random OK (parity)
+       8D |   5 |    0.69 |       0.51 |    0.51 | random OK (parity)
+       8D |  15 |    0.98 |       0.60 |    0.60 | random DEGRADES (+0.38)
+      16D |   1 |    1.11 |       0.98 |    0.98 | random OK (parity)
+      16D |   5 |    1.15 |       1.03 |    1.03 | random OK (parity)
+      16D |  15 |    1.54 |       1.05 |    1.05 | random DEGRADES (+0.49)
+
+  → Reading: the boundary is where 'random OK' flips to 'random DEGRADES'. Random features
+    keep up under tight replanning at low dimension, but as dimension grows AND replanning
+    loosens (larger c), their open-loop drift is no longer corrected fast enough — the
+    structured model stays near the oracle. This locates the regime, it does not assume it.

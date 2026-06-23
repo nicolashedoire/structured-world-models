@@ -1,0 +1,10 @@
+=== BENCH 1 — ORACLE FIRST: does CEM + true physics solve the environments? ===
+
+  benchmark            | result (oracle)                  | verdict
+  ---------------------+----------------------------------+--------
+  Pendulum             | 100% of time UPRIGHT (end)       | OK ✅
+  MountainCar          | x_max = +0.60  (flag 0.45)       | OK ✅
+  CartPole             | 200/200 steps balanced           | OK ✅
+  High-D reach (12-D)  | min dist to target = 0.83        | OK ✅
+
+  → planner VALIDATED: we can now judge the models (bench 3).

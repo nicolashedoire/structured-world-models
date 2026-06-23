@@ -1,0 +1,11 @@
+=== Gradient-free scaling law at 16D (16 positions + 16 velocities) ===
+
+      N data |         K=1000 |         K=2000 |         K=4000
+  -----------+----------------+----------------+---------------
+        8000 | R²=0.864~ e8.4 | R²=0.846❌ e8.6 | R²=0.786❌ e8.8
+       16000 | R²=0.873~ e8.5 | R²=0.869~ e8.1 | R²=0.860~ e8.2
+       32000 | R²=0.875~ e8.5 | R²=0.879~ e8.1 | R²=0.878~ e7.8
+
+  R² = one-step fidelity ; e = rollout error @20. If R² climbs with K and N →
+  the world model SCALES in high dimension WITHOUT gradient: all that's missing is
+  closed-form compute (a bigger SVD/solve), never backpropagation. No GPU.

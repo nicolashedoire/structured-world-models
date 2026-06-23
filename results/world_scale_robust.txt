@@ -1,0 +1,14 @@
+=== HONEST structured model — generic library + decoys + SINDy selection ===
+
+  library: ['1', 'p', 'v', 'a', 'v|v|', 'v|v|^2', 'p^2', 'v^2', 'p*v']   (true generators: ['a', 'p', 'v|v|'])
+
+        dim |  #lib |         RIDGE full |              SINDy (selection)
+      world |  feat |    R² · rollout@20 |     R² · rollout · kept blocks
+  ----------+-------+--------------------+-------------------------------
+        16D |   129 |     1.0000 · 0.000 | 1.0000 · 0.427 · p+v+a+v|v|+v|v|^2
+        32D |   257 |     1.0000 · 0.000 | 1.0000 · 1.131 · p+v+a+v|v|+v|v|^2
+        64D |   513 |     1.0000 · 0.000 | 1.0000 · 2.242 · p+v+a+v|v|+v|v|^2
+
+  → If SINDy keeps {p, a, v|v|} and drops the decoys, AND scales to 64D: the solution holds
+    WITHOUT being told the right feature. Full ridge also works but does NOT SELECT
+    (keeps the decoys → less interpretable, more fragile out-of-distribution). All gradient-free.

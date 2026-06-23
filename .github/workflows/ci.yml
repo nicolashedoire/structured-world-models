@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Byte-compile every script
+        run: python -m py_compile *.py
+
+      - name: Canonical agent (expect random 0/3 · structured 3/3 · oracle 3/3)
+        run: |
+          python agent_canon.py | tee out.txt
+          grep -q "random model 0/3, structured model 3/3, oracle 3/3" out.txt
+
+      - name: Bench 2 — model quality (open-loop rollout error)
+        run: python model_quality.py
+
+      - name: Bench 1 — oracle-first planner validation
+        run: python planner_cem_solution.py

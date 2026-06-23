@@ -1,0 +1,17 @@
+=== Out-of-library test (8-D, hidden term sin(2·p) NOT covered) — gradient-free ===
+
+  model                              | R² 1-step | rollout err @15
+  -----------------------------------+-----------+----------------
+  A. structured only (misses sin)    |   0.9553~ |          2.9216
+  B. enriched library (guesses sin)  |   1.0000✅ |          0.0000
+  C. structured + random residual    |   0.9524~ |          2.6802
+  D. structured + local models (kNN) |   0.9715~ |          2.3619
+
+  Honest reading (measured):
+   • A misses: the hidden term is absent → rollout drifts (2.9).
+   • B is perfect (R²=1) BUT you had to GUESS the right family (sin, ω=2) — fragile.
+   • D (LOCAL models on the residual) recovers best WITHOUT guessing anything (0.97 / 2.4).
+   • C (RANDOM residual) barely helps — random features are weak even for a smooth
+     residual (consistent with the whole project).
+  → Thesis: GLOBAL structure (closed form) + LOCAL residual (kNN) = the right gradient-free pair.
+    Guessing the basis (B) wins if you can; otherwise LOCAL beats random for the rest.

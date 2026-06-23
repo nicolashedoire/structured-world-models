@@ -1,0 +1,22 @@
+=== CANONICAL AGENT — gradient-free, structured world model (no GPU) ===
+
+  1·EXPLORE online (2500 transitions, random actions) then LEARN in closed form.
+
+  2·FIDELITY of the learned world model:
+     model              | R² 1-step | rollout err @20
+     -------------------+-----------+----------------
+     random (cos)       |    0.9727 |          1.8680
+     STRUCTURED         |    1.0000 |          0.0000
+     oracle             |    1.0000 |          0.0000
+
+  3·TOUR: 3 goals, 3 obstacles (planner = smooth, gradient-free):
+     strategy               | goals |      dist per goal | hits
+     -----------------------+-------+--------------------+-----
+     random actions         | 0/3   |     3.58 9.90 9.90 |    0
+     model random (cos)     | 0/3   |     1.52 9.90 9.90 |    2
+     model STRUCTURED       | 3/3 ✅ |     0.60 0.57 0.58 |    5
+     model oracle           | 3/3 ✅ |     0.60 0.57 0.58 |    5
+
+  → random model 0/3, structured model 3/3, oracle 3/3.
+    Scaling does not come from more random features, but from a BASIS that respects
+    the causal structure of the world. Closed form, gradient-free, no GPU.

@@ -1,0 +1,14 @@
+=== SCALE the world model — gradient-free, closed form ===
+
+   world dim | R² 1-step | rollout err @H/2 | rollout err @H |  ensemble @H
+     (state) |  (single) |   (single model) |       (single) |   (3 models)
+  -----------+-----------+------------------+----------------+-------------
+      2D (4) |    1.000✅ |            0.323 |          3.069 |       3.197
+      4D (8) |    0.973✅ |            1.397 |          3.302 |       2.881  ↓
+     8D (16) |    0.926~ |            3.046 |          6.445 |       6.209  ↓
+    16D (32) |    0.865~ |            3.920 |          8.485 |       8.413  ↓
+    32D (64) |    0.722❌ |            5.049 |         11.028 |      10.941  ↓
+
+  → one-step R² = local fidelity ; rollout err = what wrecks planning (compounding error).
+    You SEE the scaling: where the closed form holds, where the rollout drifts, and by how much
+    the ENSEMBLE (self-consistency) trims the compounding error. All gradient-free, no GPU.
