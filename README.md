@@ -148,7 +148,10 @@ High-D reach (12-D)  |   OK   |     OK     |   OK   | success (low-dim parity)
 
 - **Open loop (prediction):** structure wins decisively, and the gap grows with dimension
   (High-D: rollout@50 **8.95 → 0.000**).
-- **Closed loop (control) at these dims:** **parity** — both models solve all four tasks.
+- **Closed loop, tight replanning:** **parity** — both models solve all four tasks (bench 3, §5).
+- **Closed loop, the boundary (§10):** the parity **breaks once replanning loosens** — random
+  degrades at `c = 15`, the gap growing with dimension (**+0.38** at 8-D → **+0.49** at 16-D), while
+  the structured model tracks the oracle throughout.
 - The structured model is **closed-form, gradient-free**, matches the **oracle exactly** where it
   spans the dynamics (R² = 1.0), and **scales to 64-D** where random features plateau at ≈ 0.88.
 
